@@ -10,7 +10,7 @@
 
 ## Why This Exists
 
-LLM routing exists (RouteLLM, FrugalGPT, Semantic Router). But all existing work optimizes for **cost** or **difficulty**. Nobody has documented the split by **function**:
+LLM routing exists (RouteLLM, FrugalGPT, Semantic Router). But existing work optimizes for **cost** or **difficulty** — this pattern instead splits by **function**:
 
 | Layer | Where | Why |
 |-------|-------|-----|
@@ -65,7 +65,7 @@ Context Router (Gemma, local)
 
 ## Speed Comparison
 
-Local classification is ~20x faster than cloud routing. Most conversations complete in under 2 seconds locally.
+Local classification avoids a network round-trip to the cloud. Most conversations complete in under 2 seconds locally.
 
 ## The "Shall I Search?" Pattern
 
