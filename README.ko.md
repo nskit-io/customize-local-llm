@@ -4,7 +4,7 @@
 
 **성격은 로컬 모델, 팩트는 클라우드 모델 — 프라이버시 우선 AI 캐릭터 아키텍처.**
 
-> [NVatar](https://github.com/nskit-io/nvatar) 프로젝트에서 추출 — 로컬 하드웨어에서 완전히 구동되는 AI 아바타 채팅 시스템.
+> [NVatar](https://github.com/nskit-io/nvatar) 프로젝트에서 추출 — 로컬 우선(성격은 로컬 모델, 사실은 클라우드 층)으로 설계된 AI 아바타 채팅 시스템.
 
 ---
 
@@ -35,9 +35,13 @@ LLM 라우팅은 존재합니다 (RouteLLM, FrugalGPT, Semantic Router). 하지�
     │   잡담, 감정, 조언,       성격 레이어
     │   의견, 기억, 인사         저지연, 프라이빗
     │
-    └─ T5-T7 ──────────→ CSW → Claude (클라우드)
-        사실, 뉴스, 추천         지식 레이어
-                                정확 + 웹검색
+    ├─ T5-T6 ──────────→ CSW → Claude (클라우드)
+    │   사실, 뉴스              지식 레이어
+    │                           정확 + 웹검색
+    │
+    └─ T7 ─────────────→ Gemma (로컬, 제한)
+        추천                    한계를 인정
+                                (위치/검색 인프라 없음)
 ```
 
 ## 10가지 대화 유형
@@ -50,7 +54,7 @@ LLM 라우팅은 존재합니다 (RouteLLM, FrugalGPT, Semantic Router). 하지�
 | T4 | 심층 토론 | Gemma | **ON** |
 | T5 | 사실 질문 | **클라우드** | - |
 | T6 | 뉴스/시사 | **클라우드** | - |
-| T7 | 추천 | **클라우드** | - |
+| T7 | 추천 | Gemma (제한 — 위치/검색 인프라 없음) | OFF |
 | T8 | 기억 참조 | Gemma | OFF |
 | T9 | 아바타 질문 | Gemma | OFF |
 | T10 | 인사/작별 | Gemma | OFF |
@@ -95,7 +99,7 @@ LLM 라우팅은 존재합니다 (RouteLLM, FrugalGPT, Semantic Router). 하지�
 
 ## 라이선스
 
-MIT License - [LICENSE](LICENSE) 참조
+CC BY-NC-SA 4.0 — [LICENSE](LICENSE) 참조
 
 ---
 

@@ -4,7 +4,7 @@
 
 **性格はローカルモデル、ファクトはクラウドモデル — プライバシー優先のAIキャラクターアーキテクチャ。**
 
-> [NVatar](https://github.com/nskit-io/nvatar)プロジェクトより — ローカルハードウェアで完全に動作するAIアバターチャットシステム。
+> [NVatar](https://github.com/nskit-io/nvatar)プロジェクトより — ローカルファースト（性格はローカルモデル、事実はクラウド層）で設計されたAIアバターチャットシステム。
 
 ---
 
@@ -35,9 +35,13 @@ LLMルーティングは存在します（RouteLLM、FrugalGPT、Semantic Router
     │   雑談、感情、アドバイス、   性格レイヤー
     │   意見、記憶、挨拶          低レイテンシ
     │
-    └─ T5-T7 ──────────→ CSW → Claude（クラウド）
-        事実、ニュース、推薦       知識レイヤー
-                                 正確 + Web検索
+    ├─ T5-T6 ──────────→ CSW → Claude（クラウド）
+    │   事実、ニュース             知識レイヤー
+    │                              正確 + Web検索
+    │
+    └─ T7 ─────────────→ Gemma（ローカル、制限付き）
+        推薦                       限界を認める
+                                   （位置/検索インフラなし）
 ```
 
 ## 10の会話タイプ
@@ -50,7 +54,7 @@ LLMルーティングは存在します（RouteLLM、FrugalGPT、Semantic Router
 | T4 | 深い議論 | Gemma | **ON** |
 | T5 | 事実の質問 | **クラウド** | - |
 | T6 | ニュース | **クラウド** | - |
-| T7 | おすすめ | **クラウド** | - |
+| T7 | おすすめ | Gemma（制限付き — 位置/検索インフラなし） | OFF |
 | T8 | 記憶参照 | Gemma | OFF |
 | T9 | アバターQ | Gemma | OFF |
 | T10 | 挨拶/別れ | Gemma | OFF |
@@ -88,7 +92,7 @@ LLMルーティングは存在します（RouteLLM、FrugalGPT、Semantic Router
 
 ## ライセンス
 
-MIT License - [LICENSE](LICENSE)参照
+CC BY-NC-SA 4.0 — [LICENSE](LICENSE)参照
 
 ---
 
