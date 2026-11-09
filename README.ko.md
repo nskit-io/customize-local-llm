@@ -103,6 +103,8 @@ LLM 라우팅은 존재합니다 (RouteLLM, FrugalGPT, Semantic Router). 하지�
 
 CC BY-NC-SA 4.0 — [LICENSE](LICENSE) 참조
 
+> 이 리포는 설계 패턴과 레퍼런스를 MIT 라이선스로 공개한 것입니다. NSKit 프레임워크 본체(런타임·스캐폴딩·검사기·운영 표준)는 Neoulsoft Inc. 의 비공개 자산이며 별도 상용 라이선스로 제공됩니다.
+
 ---
 
 ## 이 연구를 지원해주세요

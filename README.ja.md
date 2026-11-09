@@ -100,6 +100,8 @@ LLMルーティングは存在します（RouteLLM、FrugalGPT、Semantic Router
 
 CC BY-NC-SA 4.0 — [LICENSE](LICENSE)参照
 
+> 本リポジトリは設計パターンとリファレンスを MIT ライセンスで公開するものです。NSKit フレームワーク本体（ランタイム・スキャフォールディング・チェッカー・運用標準）は Neoulsoft Inc. の非公開資産であり、別途商用ライセンスで提供されます。
+
 ---
 
 ## この研究をサポートしてください

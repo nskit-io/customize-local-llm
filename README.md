@@ -134,6 +134,8 @@ Other open-source components from the NVatar AI avatar system:
 
 CC BY-NC-SA 4.0 — see [LICENSE](LICENSE)
 
+> This repository publishes the design pattern and reference material under the MIT License. The NSKit framework itself (runtime, scaffolding, checkers and operating standards) is proprietary to Neoulsoft Inc. and available under a separate commercial license.
+
 ---
 
 ## Support This Research
