@@ -14,7 +14,7 @@ LLM 라우팅은 존재합니다 (RouteLLM, FrugalGPT, Semantic Router). 하지�
 
 | 레이어 | 위치 | 이유 |
 |--------|------|------|
-| 성격 & 대화 | **로컬** (Gemma 26B) | 프라이버시, 지연시간, 캐릭터 일관성 |
+| 성격 & 대화 | **로컬** (Gemma 4 26B MoE) | 프라이버시, 지연시간, 캐릭터 일관성 |
 | 팩트 & 검색 | **클라우드** (Claude via CSW) | 정확성, 도구 접근, 웹 검색 |
 
 ## 문제
@@ -59,7 +59,7 @@ LLM 라우팅은 존재합니다 (RouteLLM, FrugalGPT, Semantic Router). 하지�
 | T9 | 아바타 질문 | Gemma | OFF |
 | T10 | 인사/작별 | Gemma | OFF |
 
-**핵심 인사이트:** 캐릭터 대화의 70-80%가 T1-T4 (성격 레이어). 클라우드는 사실 정확성이 필요한 20-30%에만 사용.
+**핵심 인사이트:** 우리 경험상 캐릭터 대화의 대부분은 성격 레이어(T1-T4, T7-T10)이고, 클라우드가 필요한 것은 사실·뉴스 질문(T5-T6)뿐입니다. 측정한 비율을 공개하지 않았으므로 고정 비율이 아니라 정성적 관찰로 보십시오.
 
 ## "찾아볼까?" 패턴
 
@@ -77,24 +77,26 @@ LLM 라우팅은 존재합니다 (RouteLLM, FrugalGPT, Semantic Router). 하지�
 
 ## 속도 비교
 
-로컬 분류는 클라우드 왕복을 피합니다. 대부분의 대화가 로컬에서 2초 이내에 완료.
+로컬 분류는 클라우드 왕복을 피합니다. 대부분의 대화가 로컬에서 약 2초 이내에 완료됩니다(우리 환경의 대략적 수치이며 정식 벤치마크가 아님).
 
 ## 왜 그냥 큰 클라우드 모델을 안 쓰나?
 
 | 관심사 | 로컬 우선 하이브리드 | 클라우드 전용 |
 |--------|---------------------|--------------|
 | 프라이버시 | 대화가 로컬에 유지 | 모든 데이터 클라우드 전송 |
-| 지연시간 | 대부분의 메시지가 즉각 응답 | 전부 3-5초 |
-| 비용 | 20% 메시지만 클라우드 | 100% 클라우드 |
+| 지연시간 | 대부분의 메시지가 로컬에서 ~2초 이내 | 모든 메시지에 클라우드 왕복이 추가 |
+| 비용 | 사실·뉴스 메시지(T5-T6)만 클라우드 | 100% 클라우드 |
 | 캐릭터 일관성 | 로컬 모델 = 하나의 성격 | API 변경이 동작 변화 유발 |
 | 오프라인 | 인터넷 없이 채팅 가능 | 오프라인 불가 |
 
 ## 관련 프로젝트
 
+- [**라이브 데모**](https://nskit-io.github.io/nvatar-demo/) — 데모 서버 점검으로 라이브 데모가 일시 중단되었습니다. 소스([nvatar-demo](https://github.com/nskit-io/nvatar-demo))에서 직접 실행할 수 있습니다.
+
 - [**avatar-chat**](https://github.com/nskit-io/avatar-chat) — Gemma 캐릭터 AI 프롬프트 엔지니어링 패턴
 - [**chat-like-human-memory**](https://github.com/nskit-io/chat-like-human-memory) — 9D 감정 추적 + 성격 진화 + 3단계 기억
 - [**vrm-studio**](https://github.com/nskit-io/vrm-studio) — Three.js + WebSocket 3D VRM 아바타 채팅방
-- [**CSW**](https://github.com/nskit-io/csw) — 클라우드 레이어를 구동하는 Claude Subscription Worker
+- [**CSW**](https://github.com/nskit-io/csw) — Claude Subscription Worker, 이 R&D 프로토타입의 클라우드 레이어에 쓰인 개인 개발자 도구
 - [**portable-ai-companion**](https://github.com/nskit-io/portable-ai-companion) — 크로스앱 프랜차이즈 아키텍처
 
 ## 라이선스

@@ -14,7 +14,7 @@ LLMルーティングは存在します（RouteLLM、FrugalGPT、Semantic Router
 
 | レイヤー | 場所 | 理由 |
 |---------|------|------|
-| 性格＆会話 | **ローカル**（Gemma 26B） | プライバシー、レイテンシ、キャラクター一貫性 |
+| 性格＆会話 | **ローカル**（Gemma 4 26B MoE） | プライバシー、レイテンシ、キャラクター一貫性 |
 | ファクト＆検索 | **クラウド**（Claude via CSW） | 正確性、ツールアクセス、Web検索 |
 
 ## 問題
@@ -59,7 +59,11 @@ LLMルーティングは存在します（RouteLLM、FrugalGPT、Semantic Router
 | T9 | アバターQ | Gemma | OFF |
 | T10 | 挨拶/別れ | Gemma | OFF |
 
-**核心的洞察：** キャラクター会話の70-80%がT1-T4（性格レイヤー）。クラウドは事実の正確性が必要な20-30%にのみ使用。
+**核心的洞察：** 私たちの経験では、キャラクター会話の大半は性格レイヤー（T1-T4、T7-T10）で、クラウドが必要なのは事実・ニュースの質問（T5-T6）だけです。測定した比率は公開していないため、固定比率ではなく定性的な観察として扱ってください。
+
+## 速度比較
+
+ローカル分類はクラウドへの往復を避けます。ほとんどの会話はローカルで約2秒以内に完了します（私たちの環境での概算値であり、正式なベンチマークではありません）。
 
 ## 「調べてみようか？」パターン
 
@@ -78,16 +82,18 @@ LLMルーティングは存在します（RouteLLM、FrugalGPT、Semantic Router
 | 懸念事項 | ローカル優先ハイブリッド | クラウドのみ |
 |---------|----------------------|------------|
 | プライバシー | 会話はローカルに保持 | 全データがクラウドへ |
-| レイテンシ | ほとんどのメッセージが即座に応答 | すべて3-5秒 |
-| コスト | 20%のメッセージのみクラウド | 100%クラウド |
+| レイテンシ | ほとんどのメッセージがローカルで約2秒以内 | すべてのメッセージにクラウド往復が加わる |
+| コスト | 事実・ニュースのメッセージ（T5-T6）のみクラウド | 100%クラウド |
 | オフライン | インターネットなしでチャット可能 | オフライン不可 |
 
 ## 関連プロジェクト
 
+- [**ライブデモ**](https://nskit-io.github.io/nvatar-demo/) — デモサーバーのメンテナンスのため、ライブデモは一時停止中です。ソース（[nvatar-demo](https://github.com/nskit-io/nvatar-demo)）からは引き続き実行できます。
+
 - [**avatar-chat**](https://github.com/nskit-io/avatar-chat) — GemmaキャラクターAIプロンプトエンジニアリング
 - [**chat-like-human-memory**](https://github.com/nskit-io/chat-like-human-memory) — 9D感情トラッキング + 性格進化 + 3層記憶
 - [**vrm-studio**](https://github.com/nskit-io/vrm-studio) — Three.js + WebSocket 3D VRMアバターチャットルーム
-- [**CSW**](https://github.com/nskit-io/csw) — クラウドレイヤーを動かすClaude Subscription Worker
+- [**CSW**](https://github.com/nskit-io/csw) — Claude Subscription Worker、このR&Dプロトタイプのクラウドレイヤーに使われた個人向け開発者ツール
 - [**portable-ai-companion**](https://github.com/nskit-io/portable-ai-companion) — クロスアプリフランチャイズアーキテクチャ
 
 ## ライセンス

@@ -14,7 +14,7 @@ LLM routing exists (RouteLLM, FrugalGPT, Semantic Router). But existing work opt
 
 | Layer | Where | Why |
 |-------|-------|-----|
-| Personality & Conversation | **Local** (Gemma 26B) | Privacy, latency, character consistency |
+| Personality & Conversation | **Local** (Gemma 4 26B MoE) | Privacy, latency, character consistency |
 | Facts & Search | **Cloud** (Claude via CSW) | Accuracy, tool access, web search |
 
 This is that architecture.
@@ -65,11 +65,11 @@ Context Router (Gemma, local)
 | T9 | Avatar questions | Gemma | OFF |
 | T10 | Greetings/farewells | Gemma | OFF |
 
-**Key insight:** 70-80% of character conversations are T1-T4 (personality layer). Cloud is only needed for the 20-30% that require factual accuracy.
+**Key insight:** in our experience, most character conversation is personality-layer traffic (T1-T4, T7-T10), and only fact and news questions (T5-T6) need the cloud. We have not published a measured breakdown, so treat this as a qualitative observation rather than a fixed ratio.
 
 ## Speed Comparison
 
-Local classification avoids a network round-trip to the cloud. Most conversations complete in under 2 seconds locally.
+Local classification avoids a network round-trip to the cloud. Most conversations complete locally in under about 2 seconds (an approximate figure from our own setup, not a formal benchmark).
 
 ## The "Shall I Search?" Pattern
 
@@ -104,8 +104,8 @@ Known failure patterns are detected and gracefully handled. The conversation nev
 | Concern | Local-first Hybrid | Cloud-only |
 |---------|-------------------|------------|
 | Privacy | Conversations stay local | All data sent to cloud |
-| Latency | Sub-second for most messages | 3-5 sec for everything |
-| Cost | Cloud only for 20% of messages | Cloud for 100% |
+| Latency | Most messages answered locally in under ~2 s | Every message adds a cloud round-trip |
+| Cost | Cloud only for fact/news messages (T5-T6) | Cloud for 100% |
 | Character consistency | Local model = one personality | API changes can shift behavior |
 | Offline capability | Chat works without internet | Nothing works offline |
 
@@ -127,7 +127,7 @@ Other open-source components from the NVatar AI avatar system:
 - [**avatar-chat**](https://github.com/nskit-io/avatar-chat) — Prompt engineering patterns for Gemma character AI
 - [**chat-like-human-memory**](https://github.com/nskit-io/chat-like-human-memory) — 9D emotion tracking + personality evolution + 3-tier memory
 - [**vrm-studio**](https://github.com/nskit-io/vrm-studio) — 3D VRM avatar chat room with Three.js + WebSocket
-- [**CSW**](https://github.com/nskit-io/csw) — Claude Subscription Worker powering the cloud layer
+- [**CSW**](https://github.com/nskit-io/csw) — Claude Subscription Worker, a personal developer tool used for the cloud layer in this R&D prototype
 - [**portable-ai-companion**](https://github.com/nskit-io/portable-ai-companion) — Cross-app franchise architecture for avatar portability
 
 ## License
